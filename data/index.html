@@ -1,0 +1,262 @@
+<!DOCTYPE HTML>
+<html lang="en">
+	<head>
+		<title>Configuración LEDs</title>
+		<!-- Required meta tags -->
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+		<!-- Bootstrap CSS -->
+		<link rel="stylesheet" href="bootstrap.min.css">
+		<link rel="stylesheet" href="bootstrap-cp.min.css">
+		<link rel="stylesheet" href="main.css">
+	</head>
+	<body>
+		<header>
+			<div class="container">
+				<h1>Ajustes</h1>
+			</div>
+		</header>
+		<div class="text-center">
+			<div class="spinner-border text-primary m-5" role="status" id="loading">	
+				<span class="sr-only">Loading...</span>
+			</div>
+		</div>
+		<div class="container" id="contenedor" hidden>
+			<section class="col-12">
+				<article class="border shadow-sm">
+					<form>
+					<div class="form-group form-row">
+						<div class="col-10 col-sm-9">
+							<label for="customSwitch1">Encendido</label>
+						</div>
+						<div class="col-2 col-sm-3">
+							<div class="custom-control custom-switch">
+								<input type="checkbox" class="custom-control-input" id="customSwitch1" checked onClick="updateEnc()">
+								<label class="custom-control-label" for="customSwitch1"></label>
+							</div>
+						</div>
+					</div>
+						<div class="form-group form-row">
+						<div class="col-10 col-sm-9">
+							<label for="customSwitch2">Columnas laterales</label>
+						</div>
+							<div class="col-2 col-sm-3">
+							<div class="custom-control custom-switch">
+								<input type="checkbox" class="custom-control-input" id="customSwitch2" checked onClick="updateCol()">
+								<label class="custom-control-label" for="customSwitch2"></label>
+								</div>
+						</div>
+						</div>
+						<div class="form-row form-group">
+							<div class="col-4 col-sm-8">
+								<p><button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">Efecto</button></p>
+							</div>
+							<div class="collapse col-8 col-sm-4" id="collapseExample">
+								<div class="list-group" id="list-tab" role="tablist">
+									<button class="list-group-item list-group-item-action active" id="inputEfecto1" data-toggle="list" role="tab" onClick="setEffect(0)">Color Fade</button>
+									<button class="list-group-item list-group-item-action" id="inputEfecto2" data-toggle="list" role="tab" onClick="setEffect(1)">Travel</button>
+									<button class="list-group-item list-group-item-action" id="inputEfecto3" data-toggle="list" role="tab" onClick="setEffect(2)">Avance</button>
+									<button class="list-group-item list-group-item-action" id="inputEfecto4" data-toggle="list" role="tab" onClick="setEffect(3)">Arcoiris</button>
+									<button class="list-group-item list-group-item-action" id="inputEfecto5" data-toggle="list" role="tab" onClick="setEffect(4)">Mari</button>
+									<button class="list-group-item list-group-item-action" id="inputEfecto6" data-toggle="list" role="tab" onClick="setEffect(5)">Color</button>								
+								</div>
+							</div>
+						</div>
+					</form>
+				</article>
+				<article class="border shadow-sm">
+					<form>
+						<div class="form-group">
+							<label for="rangeSpeed">Rapidez</label>
+							<input type="range" class="custom-range" min="0" max="60" id="rangeSpeed" value="30" oninput="updateSpeed()">
+						</div>
+						<div class="form-group">
+							<label for="rangeSpeedColor">Rapidez cambio de colores</label>
+							<input type="range" class="custom-range" min="0" max="60" id="rangeSpeedColor" value="30" oninput="updateSpeedColor()">
+						</div>
+						<div class="form-group">
+							<label for="rangeBW">Ancho banda de colores</label>
+							<input type="range" class="custom-range" min="0" max="60" id="rangeBW" value="30" oninput="updateBW()">
+						</div>
+						<div class="form-group">
+							<label for="rangeWidth">Ancho bloque</label>
+							<input type="range" class="custom-range" min="0" max="60" id="rangeWidth" value="30" oninput="updateWidth()">
+						</div>
+						<div class="form-row form-group">
+							<div class="col-10 col-sm-9">
+								<label for="customRange3">Color</label>
+							</div>
+							<div class="col-2 col-sm-3">
+								<div id="cp1" class="input-group colorpicker-input-addon" title="Using input value">
+									<input type="text" class="form-control input-lg" id="inputColor" onChange="updateColor()" hidden/>
+									<span class="input-group-text colorpicker-input-addon"><i></i>
+									</span>
+									<span id="hiddenColor" hidden>0</span>
+								</div>
+							</div>
+						</div>
+					</form>
+				</article>
+				<article class="border shadow-sm" hidden="">
+					<div class="row">
+						<div class="col-10 col-sm-9">
+							Valor prueba
+						</div>
+						<div class="col-2 col-sm-3">
+							<span id="idPrueba"></span>
+						</div>
+					</div>
+				</article>
+			</section>
+		</div>	 
+		<script src="jquery-3.4.1.min.js"></script>
+		<script src="popper.min.js"></script>
+		<script src="bootstrap.min.js"></script>
+		<script src="bootstrap-cp.min.js"></script>
+		
+		<!--
+		<script>
+			setInterval(function() {
+				getData();
+			}, 2000); //2000mSeconds update rate
+			
+			function getData() {
+				var xhttp = new XMLHttpRequest();
+				xhttp.onreadystatechange = function() {
+					if (this.readyState == 4 && this.status == 200) {
+						document.getElementById("idPrueba").innerHTML = this.responseText;
+						if (this.responseText == 1) {
+							document.getElementById("customSwitch1").checked = true;
+						}
+						else {
+							document.getElementById("customSwitch1").checked = false;
+						}
+					}
+				};
+				xhttp.open("GET", "readParams", true);
+				xhttp.send();
+			}
+		</script>
+		-->
+		
+		<script>
+			$(function () {
+				$('#cp1').colorpicker({"color": "#DD0F20FF"});
+			});
+		</script>
+		
+		<script>
+			initParams();
+			function initParams() {
+				var xhttp = new XMLHttpRequest();
+				xhttp.onreadystatechange = function() {
+					if (this.readyState == 4 && this.status == 200) {
+						var res = this.responseText;
+						var res = res.split(" ");
+
+						if (res[0] == 1){
+							document.getElementById("customSwitch1").checked = true;
+						}
+						else {
+							document.getElementById("customSwitch1").checked = false;
+						}
+
+						if (res[1] == 1){
+							document.getElementById("customSwitch2").checked = true;
+						}
+						else {
+							document.getElementById("customSwitch2").checked = false;
+						}
+
+						document.getElementById("rangeSpeed").value = res[3];
+						document.getElementById("rangeBW").value = res[4];
+						document.getElementById("rangeWidth").value = res[5];
+
+						var count = $('#list-tab button').length;
+						for (var i = 0; i < count; i++) {
+							$('#list-tab button')[i].className = $('#list-tab button')[0].className.replace(" active","");
+						}
+						$('#list-tab button')[res[2]].className = $('#list-tab button')[res[2]].className + " active";
+						document.getElementById("contenedor").hidden = false;
+						document.getElementById("loading").hidden = true;
+					}
+				};
+				xhttp.open("GET", "initParams", true);
+				xhttp.send();
+			}		
+			function updateEnc() {
+				var xhttp = new XMLHttpRequest();
+				if (document.getElementById("customSwitch1").checked == true){
+					xhttp.open("GET", "setEnc?value=1", true);
+				}
+				else {
+					xhttp.open("GET", "setEnc?value=0", true);
+				}
+				xhttp.send();
+			}		
+			function updateCol() {
+				var xhttp = new XMLHttpRequest();
+				if (document.getElementById("customSwitch2").checked == true){
+					xhttp.open("GET", "setCol?value=1", true);
+				}
+				else {
+					xhttp.open("GET", "setCol?value=0", true);
+				}
+				xhttp.send();
+			}		
+			function setEffect(a) {
+				var xhttp = new XMLHttpRequest();
+				xhttp.open("GET", "setEff?value="+a, true);
+				xhttp.send();
+			}		
+			function updateSpeed(){
+				var speed = document.getElementById("rangeSpeed").value;
+				var xhttp = new XMLHttpRequest();
+				xhttp.open("GET", "setSpeed?value=" + speed, true);
+				xhttp.send();
+			}
+			function updateSpeedColor(){
+				var speedColor = document.getElementById("rangeSpeedColor").value;
+				var xhttp = new XMLHttpRequest();
+				xhttp.open("GET", "setSpeedColor?value=" + speedColor, true);
+				xhttp.send();
+			}
+			function updateBW(){
+				var bw = document.getElementById("rangeBW").value;
+				var xhttp = new XMLHttpRequest();
+				xhttp.open("GET", "setBW?value=" + bw, true);
+				xhttp.send();
+			}		
+			function updateWidth(){
+				var width = document.getElementById("rangeWidth").value;
+				var xhttp = new XMLHttpRequest();
+				xhttp.open("GET", "setWidth?value=" + width , true);
+				xhttp.send();
+			}		
+			function updateColor(){
+				var hidCol = document.getElementById("hiddenColor")
+				if (hidCol.innerHTML == 0){
+					hidCol.innerHTML = 1;
+				}
+			else {				
+				var color = document.getElementById("inputColor").value;
+				green = hexToRgb(color).g;
+				red = hexToRgb(color).r;
+				blue = hexToRgb(color).b;
+				var xhttp = new XMLHttpRequest();
+				xhttp.open("GET", "setColor?red=" + red + "&green=" + green + "&blue=" + blue , true);
+				xhttp.send();
+			}
+		}		
+			function hexToRgb(hex) {
+				var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+				return result ? {
+					r: parseInt(result[1], 16),
+					g: parseInt(result[2], 16),
+					b: parseInt(result[3], 16)
+				} : null;
+			}		
+		</script>	  
+	</body>
+</html>
